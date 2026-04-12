@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Shield,
-  Mail,
-  MapPin,
-  Whatsapp,
-  Linkedin,
-  Twitter,
-  Facebook,
-} from "lucide-react";
+import { Shield, Mail, MapPin } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -27,17 +20,6 @@ export default function Footer() {
               Empowering retirees to grow their wealth through secure,
               professionally managed digital asset portfolios.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-white transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           <div>
@@ -76,16 +58,30 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-6">Contact</h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-indigo-400" />
-                main@retiresafecrypto.com
+                <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
+                <a
+                  href="mailto:main@retiresafecrypto.com"
+                  className="hover:text-white transition-colors"
+                >
+                  main@retiresafecrypto.com
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Whatsapp className="w-4 h-4 text-indigo-400" />
-                +1 417 604 1178
+
+              <li>
+                <a
+                  href="https://wa.me/14176041178"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 hover:text-white transition-colors"
+                >
+                  <FaWhatsapp className="w-4 h-4 text-indigo-400 shrink-0" />
+                  <span>+1 417 604 1178</span>
+                </a>
               </li>
+
               <li className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-indigo-400" />
-                7788 Orbit Industrial Way, Aetherfield, IL 60666-4444
+                <MapPin className="w-4 h-4 text-indigo-400 shrink-0" />
+                <span>7788 Orbit Industrial Way, Aetherfield, IL 60666-4444</span>
               </li>
             </ul>
           </div>
