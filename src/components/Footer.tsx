@@ -2,8 +2,8 @@ import React from "react";
 import {
   Shield,
   Mail,
-  Phone,
   MapPin,
+  Whatsapp,
   Linkedin,
   Twitter,
   Facebook,
@@ -77,11 +77,11 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-indigo-400" />
-                hello@retiresafe.com
+                main@retiresafecrypto.com
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-indigo-400" />
-                (800) 555-SAFE
+                <Whatsapp className="w-4 h-4 text-indigo-400" />
+                +1 417 604 1178
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-indigo-400" />
