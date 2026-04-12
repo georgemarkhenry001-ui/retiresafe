@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   sendEmailVerification,
+  signInWithPopup,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
@@ -16,7 +18,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSignup(e: React.FormEvent) {
+  async function handleSignup(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -38,6 +40,35 @@ export default function Signup() {
       navigate("/login");
     } catch (error: any) {
       toast.error(error.message || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleGoogleSignup() {
+    setLoading(true);
+
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          fullName: user.displayName || "",
+          email: user.email || "",
+          balance: 0,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true },
+      );
+
+      toast.success("Signed in with Google successfully.");
+      navigate("/account");
+    } catch (error: any) {
+      toast.error(error.message || "Google sign-in failed");
     } finally {
       setLoading(false);
     }
@@ -94,6 +125,21 @@ export default function Signup() {
             {loading ? "Creating..." : "Sign up"}
           </button>
         </form>
+
+        <div className="mt-6 flex items-center gap-3">
+          <span className="flex-1 h-px bg-slate-200" />
+          <span className="text-sm text-slate-500">or</span>
+          <span className="flex-1 h-px bg-slate-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogleSignup}
+          disabled={loading}
+          className="w-full mt-4 inline-flex items-center justify-center gap-2 border border-slate-300 bg-white text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-50 transition disabled:opacity-60"
+        >
+          {loading ? "Processing..." : "Continue with Google"}
+        </button>
 
         <p className="mt-5 text-sm text-slate-600">
           Already have an account?{" "}
