@@ -16,7 +16,7 @@ const steps = [
   {
     icon: TrendingUp,
     title: "3. Grow Peacefully",
-    description: "Watch your nest egg grow steadily with our conservative, diversified crypto strategies."
+    description: "Watch your nest egg grow steadily with our conservative, diversified digital wealth strategies."
   }
 ];
 

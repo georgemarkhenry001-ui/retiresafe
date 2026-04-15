@@ -42,7 +42,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          _subject: "New consultation request from RetireSafeCrypto",
+          _subject: "New consultation request from RetireSafeDigital",
         }),
       });
 
@@ -120,7 +120,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     Request a Consultation
                   </h3>
                   <p className="text-slate-600 mb-8">
-                    Start your journey towards secure, steady crypto growth. No
+                    Start your journey towards secure, steady digital wealth. No
                     obligation, just a friendly conversation.
                   </p>
 

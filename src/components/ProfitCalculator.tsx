@@ -10,18 +10,18 @@ export default function ProfitCalculator() {
   const [risk, setRisk] = useState<'low' | 'medium' | 'high'>('medium');
 
   const data = useMemo(() => {
-    // Quarterly rates
-    const rates = { low: 0.075, medium: 0.13, high: 0.18 };
+    // Yearly rates
+    const rates = { low: 0.065, medium: 0.09, high: 0.12 };
     const rate = rates[risk];
     const chartData = [];
     
-    // Calculate quarterly
-    const totalQuarters = Math.ceil(months / 3);
+    // Calculate years
+    const totalYears = Math.ceil(months / 12);
     
-    for (let i = 0; i <= totalQuarters; i++) {
+    for (let i = 0; i <= totalYears; i++) {
       const balance = amount * Math.pow(1 + rate, i);
       chartData.push({
-        label: i === 0 ? 'Start' : `Q${i}`,
+        label: i === 0 ? 'Start' : `Y${i}`,
         balance: Math.round(balance),
       });
     }
@@ -37,7 +37,7 @@ export default function ProfitCalculator() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Retirement Growth Calculator</h2>
           <p className="text-lg text-slate-600">
-            See how a steady, conservative crypto strategy could enhance your golden years.
+            See how a steady, conservative digital wealth strategy could enhance your golden years.
           </p>
         </div>
 
@@ -85,13 +85,13 @@ export default function ProfitCalculator() {
 
               <div>
                 <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">
-                  Risk Tolerance (Quarterly Returns)
+                  Risk Tolerance (Yearly Returns)
                 </label>
                 <div className="grid grid-cols-3 gap-3">
                   {[
-                    { id: 'low', label: 'Low', rate: '5-10%', desc: 'Ultra Save' },
-                    { id: 'medium', label: 'Medium', rate: '11-15%', desc: 'Balance' },
-                    { id: 'high', label: 'High', rate: '16-20%', desc: 'Growth' }
+                    { id: 'low', label: 'Low', rate: '5-8%', desc: 'Ultra Save' },
+                    { id: 'medium', label: 'Medium', rate: '8-10%', desc: 'Balance' },
+                    { id: 'high', label: 'High', rate: '10-14%', desc: 'Growth' }
                   ].map((r) => (
                     <button
                       key={r.id}

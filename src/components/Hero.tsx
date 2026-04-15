@@ -24,11 +24,11 @@ export default function Hero({ onContactClick }: { onContactClick: () => void })
             </div>
             
             <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.1] mb-6 tracking-tight">
-              Secure Your Retirement with <span className="text-indigo-600">Steady</span> Crypto Growth.
+              Secure Your Retirement with <span className="text-indigo-600">Steady</span> Digital Wealth.
             </h1>
             
             <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl">
-              Conservative strategies designed for dependable returns of 11-15% quarterly. 
+              Conservative digital wealth strategies designed for dependable returns while protecting what you’ve built.
               We manage the complexity, you enjoy the peace of mind.
             </p>
 

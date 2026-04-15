@@ -35,10 +35,10 @@ export default function InvestmentApproach() {
               A Conservative Approach to a Modern Asset Class
             </h2>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              Most crypto platforms focus on high-speed trading and extreme volatility. 
-              We take the opposite approach. By applying traditional wealth management 
-              principles to digital assets, we provide retirees with a way to capture 
-              crypto's growth without the typical stress.
+              Many digital asset services focus on high-speed trading and extreme volatility.
+              We take the opposite approach. By applying traditional wealth management
+              principles to digital assets, we provide retirees with a way to capture
+              long-term growth without the typical stress.
             </p>
             
             <div className="space-y-4">

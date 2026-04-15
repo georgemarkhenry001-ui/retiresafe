@@ -6,14 +6,14 @@ import { cn } from '../lib/utils';
 const faqs = [
   {
     question: "Is my money safe with RetireSafe?",
-    answer: "Security is our #1 priority. We use institutional-grade cold storage (offline) and multi-signature security protocols. We never lend out your assets or use leverage, which are the primary causes of failure in other crypto platforms."
+    answer: "Security is our #1 priority. We use institutional-grade cold storage (offline) and multi-signature security protocols. We never lend out your assets or use leverage, which are the primary causes of failure in other digital asset services."
   },
   {
     question: "How do I get my money back if I need it?",
     answer: "You have full liquidity. While we recommend a two to twelve months horizon for optimal growth, you can request a withdrawal at any time. Funds are typically returned to your linked bank account within 3-5 business days."
   },
   {
-    question: "Do I need to know how to use a 'crypto wallet'?",
+    question: "Do I need to know how to use a digital wallet?",
     answer: "Not at all. We handle all the technical aspects. You'll receive a simple monthly statement, just like a traditional brokerage or bank account. No passwords to lose, no complicated keys to manage."
   },
   {

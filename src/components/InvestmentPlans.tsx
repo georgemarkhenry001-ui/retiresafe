@@ -6,7 +6,7 @@ import { cn } from "../lib/utils";
 const plans = [
   {
     name: "Ultra Save",
-    returns: "5% - 10%",
+    returns: "5% - 8%",
     minInvestment: "$500",
     description:
       "Our most conservative strategy, focusing on stable, low-volatility assets to preserve your capital while beating inflation.",
@@ -22,7 +22,7 @@ const plans = [
   },
   {
     name: "Balance",
-    returns: "11% - 15%",
+    returns: "8% - 10%",
     minInvestment: "$10,000",
     description:
       "A balanced approach that combines safety with moderate growth. Ideal for retirees seeking a steady income stream.",
@@ -39,7 +39,7 @@ const plans = [
   },
   {
     name: "Growth",
-    returns: "16% - 20%",
+    returns: "10% - 14%",
     minInvestment: "$50,000",
     description:
       "Designed for those with a longer time horizon who want to maximize their retirement nest egg with managed exposure.",
@@ -113,7 +113,7 @@ export default function InvestmentPlans({
                   {plan.returns}
                 </span>
                 <span className="text-slate-500 text-sm font-medium">
-                  / quarterly
+                  / yearly
                 </span>
               </div>
 

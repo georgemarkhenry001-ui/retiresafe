@@ -7,7 +7,7 @@ const testimonials = [
     name: "Robert M.",
     age: 68,
     location: "Florida",
-    text: "I was always curious about crypto but terrified of the volatility. RetireSafe gave me a clear, conservative path. My portfolio has grown steadily without me ever having to look at a chart.",
+    text: "I was always curious about digital assets but terrified of the volatility. RetireSafe gave me a clear, conservative path. My portfolio has grown steadily without me ever having to look at a chart.",
     image:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150",
   },
@@ -31,7 +31,7 @@ const testimonials = [
     name: "Michael P.",
     age: 70,
     location: "California",
-    text: "The platform is incredibly easy to understand. I was worried about security, but RetireSafe's institutional-grade protocols gave me the peace of mind I needed to finally diversify into crypto.",
+    text: "The platform is incredibly easy to understand. I was worried about security, but RetireSafe's institutional-grade protocols gave me the peace of mind I needed to finally diversify into digital assets.",
     image: "https://picsum.photos/seed/michael/150/150",
   },
 ];

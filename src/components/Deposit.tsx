@@ -89,7 +89,7 @@ export default function Deposit() {
             <>
               <h1 className="text-3xl font-bold text-slate-900">Deposit</h1>
               <p className="text-slate-600 mt-2 mb-6">
-                Choose a crypto payment method and submit your deposit request.
+                Choose a secure digital asset payment method and submit your deposit request.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -123,7 +123,7 @@ export default function Deposit() {
                     className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none focus:border-indigo-500 bg-white"
                     required
                   >
-                    <option value="">Select crypto</option>
+                    <option value="">Select asset type</option>
                     <option value="BTC">Bitcoin (BTC)</option>
                     <option value="ETH">Ethereum (ETH)</option>
                     <option value="USDT">Tether (USDT)</option>

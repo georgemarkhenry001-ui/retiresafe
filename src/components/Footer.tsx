@@ -17,7 +17,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed mb-6">
-              Empowering retirees to grow their wealth through secure,
+              Empowering retirees to preserve and grow wealth through secure,
               professionally managed digital asset portfolios.
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-slate-800 text-xs leading-relaxed text-slate-500">
-          <p>© 2026 RetireSafe Crypto. All rights reserved.</p>
+          <p>© 2026 RetireSafe Digital. All rights reserved.</p>
         </div>
       </div>
     </footer>
