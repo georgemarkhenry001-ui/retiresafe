@@ -36,7 +36,7 @@ export default function Signup() {
 
       await sendEmailVerification(cred.user);
 
-      toast.success("Account created. Please verify your email before login.");
+      toast.success("Account created. Please verify your email before login. Check your primary inbox or spam folder.");
       navigate("/login");
     } catch (error: any) {
       toast.error(error.message || "Signup failed");
