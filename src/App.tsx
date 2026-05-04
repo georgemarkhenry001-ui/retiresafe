@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Shield,
@@ -24,30 +24,41 @@ import { cn } from "./lib/utils";
 import { auth } from "./lib/firebase";
 import { useAuth } from "./hooks/useAuth";
 
-// Landing page components
+// Above-the-fold landing components — loaded eagerly so first paint is instant
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
 import ReviewsStars from "./components/ReviewsStars";
 import HowItWorks from "./components/HowItWorks";
-import InvestmentApproach from "./components/InvestmentApproach";
-import ProfitCalculator from "./components/ProfitCalculator";
-import Testimonials from "./components/Testimonials";
-import FAQ from "./components/FAQ";
-import InvestmentPlans from "./components/InvestmentPlans";
-import Footer from "./components/Footer";
-import ContactModal from "./components/ContactModal";
 
-// Admin
-import AdminLogin from "./components/Admin/AdminLogin";
-import AdminDashboard from "./components/Admin/AdminDashboard";
+// Below-the-fold sections — code-split, fetched in parallel with main bundle
+const InvestmentApproach = lazy(() => import("./components/InvestmentApproach"));
+const ProfitCalculator = lazy(() => import("./components/ProfitCalculator"));
+const Testimonials = lazy(() => import("./components/Testimonials"));
+const FAQ = lazy(() => import("./components/FAQ"));
+const InvestmentPlans = lazy(() => import("./components/InvestmentPlans"));
+const Footer = lazy(() => import("./components/Footer"));
+const ContactModal = lazy(() => import("./components/ContactModal"));
 
-// User pages
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import AccountOverview from "./components/AccountOverview";
-import Deposit from "./components/Deposit";
-import Withdrawal from "./components/Withdrawal";
+// Routes — never loaded on the public landing page
+const AdminLogin = lazy(() => import("./components/Admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./components/Admin/AdminDashboard"));
+const Login = lazy(() => import("./components/Login"));
+const Signup = lazy(() => import("./components/Signup"));
+const AccountOverview = lazy(() => import("./components/AccountOverview"));
+const Deposit = lazy(() => import("./components/Deposit"));
+const Withdrawal = lazy(() => import("./components/Withdrawal"));
 import ProtectedRoute from "./components/ProtectedRoute";
+
+function SectionFallback({ minH = 320 }: { minH?: number }) {
+  return (
+    <div
+      style={{ minHeight: minH }}
+      className="flex items-center justify-center"
+    >
+      <span className="w-6 h-6 rounded-full border-2 border-slate-200 border-t-indigo-500 animate-spin" />
+    </div>
+  );
+}
 
 function Navbar({ onContactClick }: { onContactClick: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -337,23 +348,48 @@ function LandingPage() {
     <div className="min-h-screen bg-slate-50 selection:bg-indigo-100 selection:text-indigo-900">
       <Navbar onContactClick={() => setIsContactModalOpen(true)} />
       <main>
+        {/* Above-the-fold — eager */}
         <Hero onContactClick={() => setIsContactModalOpen(true)} />
         <TrustedBy />
         <ReviewsStars />
         <HowItWorks />
-        <InvestmentApproach />
-        <InvestmentPlans
-          onGetStartedClick={() => setIsContactModalOpen(true)}
-        />
-        <ProfitCalculator />
-        <Testimonials />
-        <FAQ />
+
+        {/* Below-the-fold — code-split, fetched in parallel */}
+        <Suspense fallback={<SectionFallback minH={400} />}>
+          <InvestmentApproach />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minH={500} />}>
+          <InvestmentPlans
+            onGetStartedClick={() => setIsContactModalOpen(true)}
+          />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minH={500} />}>
+          <ProfitCalculator />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minH={400} />}>
+          <Testimonials />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minH={300} />}>
+          <FAQ />
+        </Suspense>
       </main>
-      <Footer />
-      <ContactModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
+      <Suspense fallback={<SectionFallback minH={200} />}>
+        <Footer />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+        />
+      </Suspense>
+    </div>
+  );
+}
+
+function FullPageFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <span className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-indigo-500 animate-spin" />
     </div>
   );
 }
@@ -362,37 +398,39 @@ export default function App() {
   return (
     <BrowserRouter>
       <Toaster position="top-center" />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/account"
-          element={
-            <ProtectedRoute>
-              <AccountOverview />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/deposit"
-          element={
-            <ProtectedRoute>
-              <Deposit />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/withdrawal"
-          element={
-            <ProtectedRoute>
-              <Withdrawal />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Routes>
+      <Suspense fallback={<FullPageFallback />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <AccountOverview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/deposit"
+            element={
+              <ProtectedRoute>
+                <Deposit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/withdrawal"
+            element={
+              <ProtectedRoute>
+                <Withdrawal />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
