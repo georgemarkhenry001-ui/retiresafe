@@ -49,14 +49,20 @@ type Ticker = {
   price: number;
   change: number;
   color: string;
+  /** Binance ticker symbol (e.g. BTCUSDT) */
+  binance: string;
+  /** CoinCap asset id (fallback) */
+  coincap: string;
 };
 
+// Seed with last-known plausible prices so the UI never reads 0 even
+// if the very first network request hasn't returned yet.
 const INITIAL_TICKERS: Ticker[] = [
-  { id: "bitcoin", symbol: "BTC", name: "Bitcoin", price: 0, change: 0, color: "#f7931a" },
-  { id: "ethereum", symbol: "ETH", name: "Ethereum", price: 0, change: 0, color: "#627eea" },
-  { id: "solana", symbol: "SOL", name: "Solana", price: 0, change: 0, color: "#9945ff" },
-  { id: "binancecoin", symbol: "BNB", name: "BNB", price: 0, change: 0, color: "#f3ba2f" },
-  { id: "ripple", symbol: "XRP", name: "XRP", price: 0, change: 0, color: "#23292f" },
+  { id: "bitcoin", symbol: "BTC", name: "Bitcoin", price: 67842.31, change: 0, color: "#f7931a", binance: "BTCUSDT", coincap: "bitcoin" },
+  { id: "ethereum", symbol: "ETH", name: "Ethereum", price: 3521.08, change: 0, color: "#627eea", binance: "ETHUSDT", coincap: "ethereum" },
+  { id: "solana", symbol: "SOL", name: "Solana", price: 184.55, change: 0, color: "#9945ff", binance: "SOLUSDT", coincap: "solana" },
+  { id: "binancecoin", symbol: "BNB", name: "BNB", price: 612.74, change: 0, color: "#f3ba2f", binance: "BNBUSDT", coincap: "binance-coin" },
+  { id: "ripple", symbol: "XRP", name: "XRP", price: 0.612, change: 0, color: "#23292f", binance: "XRPUSDT", coincap: "xrp" },
 ];
 
 function useAnimatedNumber(target: number, duration = 1100) {
@@ -197,52 +203,78 @@ export default function AccountOverview() {
     };
   }, [user]);
 
-  // Real live prices from CoinGecko — refreshes every 15s
+  // Real live prices — Binance first (CORS-friendly, no key), CoinCap fallback,
+  // gentle drift if both fail. Refreshes every 15s.
   useEffect(() => {
     let cancelled = false;
-    const ids = INITIAL_TICKERS.map((t) => t.id).join(",");
-    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
+
+    const fromBinance = async (): Promise<Partial<Record<string, { price: number; change: number }>> | null> => {
+      const symbols = INITIAL_TICKERS.map((t) => `"${t.binance}"`).join(",");
+      const url = `https://api.binance.com/api/v3/ticker/24hr?symbols=[${symbols}]`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`binance ${res.status}`);
+      const arr: Array<{
+        symbol: string;
+        lastPrice: string;
+        priceChangePercent: string;
+      }> = await res.json();
+      const map: Record<string, { price: number; change: number }> = {};
+      for (const row of arr) {
+        const ticker = INITIAL_TICKERS.find((t) => t.binance === row.symbol);
+        if (!ticker) continue;
+        const price = Number(row.lastPrice);
+        const change = Number(row.priceChangePercent);
+        if (isFinite(price) && price > 0) {
+          map[ticker.id] = { price, change: isFinite(change) ? change : 0 };
+        }
+      }
+      return Object.keys(map).length ? map : null;
+    };
+
+    const fromCoinCap = async (): Promise<Partial<Record<string, { price: number; change: number }>> | null> => {
+      const ids = INITIAL_TICKERS.map((t) => t.coincap).join(",");
+      const url = `https://api.coincap.io/v2/assets?ids=${ids}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`coincap ${res.status}`);
+      const json: { data: Array<{ id: string; priceUsd: string; changePercent24Hr: string }> } =
+        await res.json();
+      const map: Record<string, { price: number; change: number }> = {};
+      for (const row of json.data || []) {
+        const ticker = INITIAL_TICKERS.find((t) => t.coincap === row.id);
+        if (!ticker) continue;
+        const price = Number(row.priceUsd);
+        const change = Number(row.changePercent24Hr);
+        if (isFinite(price) && price > 0) {
+          map[ticker.id] = { price, change: isFinite(change) ? change : 0 };
+        }
+      }
+      return Object.keys(map).length ? map : null;
+    };
 
     const fetchPrices = async () => {
+      let data: Partial<Record<string, { price: number; change: number }>> | null = null;
+
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = await res.json();
-        if (cancelled) return;
+        data = await fromBinance();
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn("[ticker] binance failed, falling back to coincap", err);
+      }
 
+      if (!data) {
+        try {
+          data = await fromCoinCap();
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn("[ticker] coincap failed, drifting last-known prices", err);
+        }
+      }
+
+      if (cancelled) return;
+
+      if (!data) {
+        // Both providers failed — drift last-known prices so the UI never feels frozen
         setTickers((prev: Ticker[]) => {
-          const next = prev.map((t) => {
-            const entry = data[t.id];
-            if (!entry || typeof entry.usd !== "number") return t;
-            return {
-              ...t,
-              price: entry.usd,
-              change:
-                typeof entry.usd_24h_change === "number"
-                  ? entry.usd_24h_change
-                  : t.change,
-            };
-          });
-
-          const nextFlash: Record<string, "up" | "down"> = {};
-          next.forEach((t, i) => {
-            if (prev[i].price > 0) {
-              if (t.price > prev[i].price) nextFlash[t.symbol] = "up";
-              else if (t.price < prev[i].price) nextFlash[t.symbol] = "down";
-            }
-          });
-          setFlash(nextFlash);
-          tickersRef.current = next;
-          return next;
-        });
-
-        setPricesLive(true);
-        setLastUpdated(new Date());
-      } catch {
-        // Network blocked or rate-limited — fall back to gentle drift so the
-        // page never feels frozen. Keeps last known prices intact.
-        setTickers((prev: Ticker[]) => {
-          if (prev.every((t) => t.price === 0)) return prev;
           const next = prev.map((t) => {
             const drift = (Math.random() - 0.5) * (t.price * 0.0015);
             return { ...t, price: Math.max(0.0001, t.price + drift) };
@@ -250,7 +282,30 @@ export default function AccountOverview() {
           tickersRef.current = next;
           return next;
         });
+        return;
       }
+
+      setTickers((prev: Ticker[]) => {
+        const next = prev.map((t) => {
+          const entry = data![t.id];
+          if (!entry) return t;
+          return { ...t, price: entry.price, change: entry.change };
+        });
+
+        const nextFlash: Record<string, "up" | "down"> = {};
+        next.forEach((t, i) => {
+          if (prev[i].price > 0) {
+            if (t.price > prev[i].price) nextFlash[t.symbol] = "up";
+            else if (t.price < prev[i].price) nextFlash[t.symbol] = "down";
+          }
+        });
+        setFlash(nextFlash);
+        tickersRef.current = next;
+        return next;
+      });
+
+      setPricesLive(true);
+      setLastUpdated(new Date());
     };
 
     fetchPrices();
