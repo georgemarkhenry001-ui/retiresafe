@@ -591,7 +591,7 @@ export default function AccountOverview() {
                     <Icon className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold text-slate-900 mt-3 tabular-nums">
+                <p className="text-xl sm:text-2xl font-bold text-slate-900 mt-3 tabular-nums truncate">
                   {s.value}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">{s.sub}</p>
@@ -623,8 +623,8 @@ export default function AccountOverview() {
                 </div>
               </div>
 
-              <div className="flex items-baseline gap-2">
-                <h2 className="text-4xl sm:text-5xl font-bold tabular-nums">
+              <div className="flex items-baseline gap-2 min-w-0">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums truncate">
                   $
                   {animatedBalance.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
@@ -1038,7 +1038,8 @@ export default function AccountOverview() {
             <div className="relative flex items-center gap-3 px-3 py-2 rounded-lg bg-black/30 border border-white/5 text-[10px] font-semibold uppercase tracking-wider text-indigo-200/60 mb-2">
               <span className="w-12">Side</span>
               <span className="w-16">Asset</span>
-              <span className="flex-1">Size @ Price</span>
+              <span className="hidden sm:block flex-1">Size @ Price</span>
+              <span className="block sm:hidden flex-1">Size</span>
               <span className="text-right">Total</span>
             </div>
 
@@ -1096,7 +1097,7 @@ export default function AccountOverview() {
                           {trade.symbol}
                         </span>
                       </div>
-                      <span className="text-sm text-indigo-100/80 tabular-nums flex-1 font-mono">
+                      <span className="hidden sm:block text-sm text-indigo-100/80 tabular-nums flex-1 font-mono truncate min-w-0">
                         {trade.amount.toFixed(3)}{" "}
                         <span className="text-indigo-300/50">@</span>{" "}
                         <span className="text-white">
@@ -1107,6 +1108,10 @@ export default function AccountOverview() {
                                 maximumFractionDigits: 2,
                               })}
                         </span>
+                      </span>
+                      <span className="block sm:hidden flex-1 min-w-0" />
+                      <span className="block sm:hidden text-[11px] text-indigo-200/70 tabular-nums font-mono shrink-0 mr-2">
+                        {trade.amount.toFixed(3)}
                       </span>
                       <span
                         className={`text-sm font-bold tabular-nums font-mono ${

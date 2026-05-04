@@ -416,7 +416,7 @@ export default function ProfitCalculator() {
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-100">
                       Projected Balance
                     </p>
-                    <h3 className="text-4xl sm:text-5xl font-bold tabular-nums mt-1">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tabular-nums mt-1 break-words">
                       {formatCurrency(animatedFinal)}
                     </h3>
                     <p className="text-indigo-100/80 text-sm mt-1">
@@ -432,37 +432,37 @@ export default function ProfitCalculator() {
                   </div>
                 </div>
 
-                <div className="relative grid grid-cols-3 gap-3 mt-5">
+                <div className="relative grid grid-cols-1 xs:grid-cols-3 sm:grid-cols-3 gap-3 mt-5">
                   <motion.div
                     whileHover={{ y: -2 }}
-                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5"
+                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5 min-w-0"
                   >
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-100">
                       Total profit
                     </p>
-                    <p className="text-lg font-bold tabular-nums mt-0.5">
+                    <p className="text-base sm:text-lg font-bold tabular-nums mt-0.5 truncate">
                       +{formatCurrency(animatedProfit)}
                     </p>
                   </motion.div>
                   <motion.div
                     whileHover={{ y: -2 }}
-                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5"
+                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5 min-w-0"
                   >
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-100">
                       Per month
                     </p>
-                    <p className="text-lg font-bold tabular-nums mt-0.5">
+                    <p className="text-base sm:text-lg font-bold tabular-nums mt-0.5 truncate">
                       {formatCurrency(animatedMonthly)}
                     </p>
                   </motion.div>
                   <motion.div
                     whileHover={{ y: -2 }}
-                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5"
+                    className="rounded-xl bg-white/10 backdrop-blur border border-white/20 px-3 py-2.5 min-w-0"
                   >
                     <p className="text-[10px] font-semibold uppercase tracking-wider text-indigo-100">
                       Per day
                     </p>
-                    <p className="text-lg font-bold tabular-nums mt-0.5">
+                    <p className="text-base sm:text-lg font-bold tabular-nums mt-0.5 truncate">
                       {formatCurrency(dailyIncome)}
                     </p>
                   </motion.div>
@@ -614,7 +614,7 @@ export default function ProfitCalculator() {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 href="#"
-                className="group relative overflow-hidden flex items-center justify-between gap-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-4 transition"
+                className="group relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white px-5 py-4 transition"
               >
                 <motion.span
                   animate={{ x: ["-100%", "200%"] }}

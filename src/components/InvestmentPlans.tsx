@@ -128,7 +128,7 @@ export default function InvestmentPlans({
         </motion.div>
 
         {/* Reserve space at top so the popular badge has guaranteed room on every breakpoint */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-6">
           {plans.map((plan, i) => {
             const Icon = plan.icon;
             return (

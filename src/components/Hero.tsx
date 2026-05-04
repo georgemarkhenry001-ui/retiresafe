@@ -122,7 +122,7 @@ function FloatingCoin({
         ease: "easeInOut",
         delay,
       }}
-      className={`absolute ${className} ${dim} rounded-full flex items-center justify-center text-white font-bold shadow-xl ring-4 ring-white/40`}
+      className={`hidden md:flex absolute ${className} ${dim} rounded-full items-center justify-center text-white font-bold shadow-xl ring-4 ring-white/40`}
       style={{
         background: `linear-gradient(135deg, ${color}, ${color}cc)`,
         boxShadow: `0 12px 28px ${color}40`,
@@ -203,7 +203,7 @@ export default function Hero({
               Trusted by 2,500+ Retirees
             </motion.div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-[1.05] mb-6 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 leading-[1.05] mb-6 tracking-tight">
               Secure Your Retirement with{" "}
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
@@ -219,7 +219,7 @@ export default function Hero({
               Digital Wealth.
             </h1>
 
-            <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg lg:text-xl text-slate-600 mb-8 lg:mb-10 leading-relaxed max-w-xl">
               Conservative digital wealth strategies designed for dependable
               returns while protecting what you've built. We manage the
               complexity, you enjoy the peace of mind.
@@ -345,7 +345,7 @@ export default function Hero({
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-6 -left-6 z-20 bg-white p-5 rounded-2xl shadow-xl border border-slate-100 w-[260px]"
+              className="absolute -bottom-4 left-3 sm:-bottom-6 sm:-left-6 z-20 bg-white p-4 sm:p-5 rounded-2xl shadow-xl border border-slate-100 w-[220px] sm:w-[260px]"
             >
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-200">
@@ -421,7 +421,7 @@ export default function Hero({
                 opacity: [0.6, 1, 0.6],
               }}
               transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-              className="absolute top-12 right-1/3 text-indigo-400"
+              className="hidden md:block absolute top-12 right-1/3 text-indigo-400"
             >
               <Sparkles className="w-5 h-5" />
             </motion.div>

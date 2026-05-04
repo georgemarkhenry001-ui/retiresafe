@@ -108,7 +108,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-1">
           {[
             { href: "#approach", label: "Approach" },
             { href: "#calculator", label: "Calculator" },
@@ -201,7 +201,8 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
         </div>
 
         <button
-          className="md:hidden text-slate-900"
+          className="lg:hidden text-slate-900 p-1.5 -mr-1.5"
+          aria-label="Toggle menu"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X /> : <Menu />}
@@ -214,7 +215,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-6 md:hidden shadow-xl"
+            className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-6 lg:hidden shadow-xl"
           >
             <div className="flex flex-col gap-4">
               {!user ? (
