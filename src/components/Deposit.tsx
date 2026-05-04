@@ -11,6 +11,10 @@ import {
   ArrowDownToLine,
   Bitcoin,
   Sparkles,
+  Building2,
+  Mail,
+  MessageCircle,
+  ExternalLink,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "react-hot-toast";
@@ -45,6 +49,11 @@ const paymentMethods = {
 } as const;
 
 type AssetKey = keyof typeof paymentMethods;
+type PaymentChoice = "" | AssetKey | "BANK";
+
+const SUPPORT_EMAIL = "main@retiresafecrypto.com";
+const SUPPORT_WHATSAPP = "+1 417 604 1178";
+const SUPPORT_WHATSAPP_LINK = "https://wa.me/14176041178";
 
 const QUICK_AMOUNTS = [100, 500, 1000, 5000];
 
@@ -106,7 +115,7 @@ function AnimatedGrid() {
 
 export default function Deposit() {
   const [amount, setAmount] = useState("");
-  const [cryptoType, setCryptoType] = useState<"" | AssetKey>("");
+  const [cryptoType, setCryptoType] = useState<PaymentChoice>("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -141,14 +150,22 @@ export default function Deposit() {
         email: user.email || "",
         amount: value,
         cryptoType,
-        walletAddressShown: selectedMethod?.walletAddress || "",
-        network: selectedMethod?.network || "",
+        walletAddressShown:
+          cryptoType === "BANK" ? "" : selectedMethod?.walletAddress || "",
+        network:
+          cryptoType === "BANK"
+            ? "Bank Transfer (manual)"
+            : selectedMethod?.network || "",
         status: "processing",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
       setSubmitted(true);
-      toast.success("Deposit request submitted");
+      toast.success(
+        cryptoType === "BANK"
+          ? "Request received — our team will reach out"
+          : "Deposit request submitted",
+      );
     } catch (error: any) {
       toast.error(error.message || "Failed to submit deposit request");
     } finally {
@@ -325,7 +342,47 @@ export default function Deposit() {
                   <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Payment Method
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {/* Bank transfer option */}
+                    <motion.button
+                      key="BANK"
+                      type="button"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      whileHover={{ y: -3 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setCryptoType("BANK")}
+                      className={`relative overflow-hidden rounded-2xl border p-3 text-left transition ${
+                        cryptoType === "BANK"
+                          ? "ring-2 ring-indigo-500 border-transparent bg-gradient-to-br from-indigo-50 to-blue-50"
+                          : "border-slate-200 bg-white hover:border-indigo-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-indigo-600 to-blue-600">
+                          <Building2 className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-slate-900">
+                            Bank
+                          </p>
+                          <p className="text-[10px] text-slate-500">
+                            Wire transfer
+                          </p>
+                        </div>
+                      </div>
+                      {cryptoType === "BANK" && (
+                        <motion.div
+                          layoutId="asset-check"
+                          className="absolute top-2 right-2 w-5 h-5 rounded-full bg-indigo-600 flex items-center justify-center"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                        </motion.div>
+                      )}
+                    </motion.button>
+
+                    {/* Crypto options */}
                     {(Object.keys(paymentMethods) as AssetKey[]).map((key, i) => {
                       const m = paymentMethods[key];
                       const selected = cryptoType === key;
@@ -335,7 +392,7 @@ export default function Deposit() {
                           type="button"
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 + i * 0.06 }}
+                          transition={{ delay: 0.36 + i * 0.06 }}
                           whileHover={{ y: -3 }}
                           whileTap={{ scale: 0.97 }}
                           onClick={() => setCryptoType(key)}
@@ -374,6 +431,103 @@ export default function Deposit() {
                     })}
                   </div>
                 </div>
+
+                {/* Bank transfer contact card */}
+                <AnimatePresence>
+                  {cryptoType === "BANK" && (
+                    <motion.div
+                      key="bank-card"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="relative overflow-hidden rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-blue-50 p-5">
+                        <motion.div
+                          animate={{ x: ["-10%", "110%"] }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                          className="absolute top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent pointer-events-none"
+                        />
+
+                        <div className="relative flex items-center justify-between mb-3">
+                          <div>
+                            <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                              Bank transfer
+                            </p>
+                            <p className="text-sm font-semibold text-slate-900 mt-0.5">
+                              Contact us to receive wire details
+                            </p>
+                          </div>
+                          <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow bg-gradient-to-r from-indigo-600 to-blue-600">
+                            <Building2 className="w-3 h-3" />
+                            Bank
+                          </span>
+                        </div>
+
+                        <p className="relative text-sm text-slate-700 leading-relaxed mb-4">
+                          For your security, our team shares wire instructions
+                          directly. Reach out via email or WhatsApp and we'll
+                          send the bank details and confirm the transfer.
+                        </p>
+
+                        <div className="relative grid sm:grid-cols-2 gap-2.5">
+                          <a
+                            href={`mailto:${SUPPORT_EMAIL}?subject=Bank%20Transfer%20Deposit${
+                              amount
+                                ? `%20%E2%80%94%20%24${encodeURIComponent(amount)}`
+                                : ""
+                            }`}
+                            className="group flex items-start gap-3 rounded-xl border border-indigo-100 bg-white hover:border-indigo-300 hover:shadow-md px-3.5 py-3 transition"
+                          >
+                            <div className="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                              <Mail className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                                Email support
+                              </p>
+                              <p className="text-sm font-semibold text-slate-900 truncate group-hover:text-indigo-700 transition-colors">
+                                {SUPPORT_EMAIL}
+                              </p>
+                            </div>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </a>
+
+                          <a
+                            href={SUPPORT_WHATSAPP_LINK}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group flex items-start gap-3 rounded-xl border border-emerald-100 bg-white hover:border-emerald-300 hover:shadow-md px-3.5 py-3 transition"
+                          >
+                            <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                              <MessageCircle className="w-4 h-4" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                                WhatsApp
+                              </p>
+                              <p className="text-sm font-semibold text-slate-900 truncate group-hover:text-emerald-700 transition-colors">
+                                {SUPPORT_WHATSAPP}
+                              </p>
+                            </div>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </a>
+                        </div>
+
+                        <p className="relative text-xs text-slate-500 mt-3 leading-relaxed">
+                          Submitting this form notifies our team. You'll
+                          receive the bank details and reference within
+                          minutes during business hours.
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Wallet address */}
                 <AnimatePresence>
@@ -460,6 +614,11 @@ export default function Deposit() {
                         <span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
                         Submitting…
                       </>
+                    ) : cryptoType === "BANK" ? (
+                      <>
+                        <Building2 className="w-4 h-4" />
+                        Notify support team
+                      </>
                     ) : (
                       <>
                         <ArrowDownToLine className="w-4 h-4" />
@@ -503,11 +662,56 @@ export default function Deposit() {
               <h2 className="relative text-3xl font-bold text-slate-900">
                 Request submitted
               </h2>
-              <p className="relative text-slate-600 mt-3 max-w-xl mx-auto">
-                Your deposit request has been recorded. Complete the transfer
-                to the displayed wallet address — your balance will update once
-                the network confirms.
-              </p>
+              {cryptoType === "BANK" ? (
+                <>
+                  <p className="relative text-slate-600 mt-3 max-w-xl mx-auto">
+                    Our team will reach out shortly with bank transfer details.
+                    For the fastest reply, contact us directly:
+                  </p>
+                  <div className="relative grid sm:grid-cols-2 gap-2.5 mt-5 max-w-xl mx-auto text-left">
+                    <a
+                      href={`mailto:${SUPPORT_EMAIL}`}
+                      className="group flex items-center gap-3 rounded-xl border border-indigo-100 bg-white hover:border-indigo-300 hover:shadow-md px-3.5 py-3 transition"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          Email
+                        </p>
+                        <p className="text-sm font-semibold text-slate-900 truncate">
+                          {SUPPORT_EMAIL}
+                        </p>
+                      </div>
+                    </a>
+                    <a
+                      href={SUPPORT_WHATSAPP_LINK}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group flex items-center gap-3 rounded-xl border border-emerald-100 bg-white hover:border-emerald-300 hover:shadow-md px-3.5 py-3 transition"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                        <MessageCircle className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          WhatsApp
+                        </p>
+                        <p className="text-sm font-semibold text-slate-900 truncate">
+                          {SUPPORT_WHATSAPP}
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </>
+              ) : (
+                <p className="relative text-slate-600 mt-3 max-w-xl mx-auto">
+                  Your deposit request has been recorded. Complete the transfer
+                  to the displayed wallet address — your balance will update once
+                  the network confirms.
+                </p>
+              )}
               <Link
                 to="/account"
                 className="relative mt-6 inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 hover:shadow-lg transition"
