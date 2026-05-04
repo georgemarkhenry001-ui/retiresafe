@@ -17,6 +17,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -679,234 +680,471 @@ export default function AccountOverview() {
             transition={{ duration: 0.45, delay: 0.25 }}
             className="relative overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8"
           >
-            <div className="absolute -top-32 -right-24 w-64 h-64 rounded-full bg-violet-200/30 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-32 -left-24 w-64 h-64 rounded-full bg-indigo-200/30 blur-3xl pointer-events-none" />
+            {/* Soft animated background */}
+            <motion.div
+              animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.32, 0.18] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-32 -right-24 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
+            />
+            <motion.div
+              animate={{ scale: [1, 1.1, 1], opacity: [0.12, 0.24, 0.12] }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.5,
+              }}
+              className="absolute -bottom-32 -left-24 w-72 h-72 rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
+            />
 
-            <div className="relative flex flex-wrap items-start justify-between gap-3 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                  <Activity className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Growth Tracker
-                  </p>
-                  <h3 className="text-xl font-bold text-slate-900">
-                    Investment Growth
-                  </h3>
-                </div>
-              </div>
+            {(() => {
+              const first = visibleGrowth[0]?.value ?? 0;
+              const last =
+                visibleGrowth[visibleGrowth.length - 1]?.value ?? 0;
+              const delta = last - first;
+              const pct = first > 0 ? (delta / first) * 100 : 0;
+              const up = delta >= 0;
+              const high = visibleGrowth.reduce(
+                (m: number, p: { value: number }) =>
+                  p.value > m ? p.value : m,
+                0,
+              );
+              const low = visibleGrowth.reduce(
+                (m: number, p: { value: number }) =>
+                  p.value < m || m === 0 ? p.value : m,
+                first,
+              );
+              return (
+                <>
+                  {/* Header */}
+                  <div className="relative flex items-start justify-between gap-3 mb-5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <motion.div
+                        animate={{
+                          boxShadow: [
+                            "0 0 0 0 rgba(99,102,241,0.4)",
+                            "0 0 0 12px rgba(99,102,241,0)",
+                          ],
+                        }}
+                        transition={{ duration: 2.4, repeat: Infinity }}
+                        className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-600 to-indigo-700 flex items-center justify-center shadow-lg shadow-indigo-500/30 shrink-0"
+                      >
+                        <Activity className="w-6 h-6 text-white" />
+                      </motion.div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-indigo-600">
+                          Growth Tracker
+                        </p>
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 truncate">
+                          Investment Growth
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-100 px-2.5 py-1 shrink-0">
+                      <LiveDot />
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+                        Tracking
+                      </span>
+                    </div>
+                  </div>
 
-              <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1">
-                {(["1W", "1M", "3M", "ALL"] as const).map((tf) => (
-                  <button
-                    key={tf}
-                    onClick={() => setTimeframe(tf)}
-                    className={`relative px-3 py-1.5 text-xs font-bold rounded-lg transition ${
-                      timeframe === tf
-                        ? "text-white"
-                        : "text-slate-500 hover:text-slate-700"
-                    }`}
-                  >
-                    {timeframe === tf && (
-                      <motion.span
-                        layoutId="tf-pill"
-                        className="absolute inset-0 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 shadow-sm"
-                        transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                      />
-                    )}
-                    <span className="relative">{tf}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative flex items-end gap-4 mb-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Period change
-                </p>
-                <div className="flex items-baseline gap-2 mt-1">
-                  {(() => {
-                    const first = visibleGrowth[0]?.value ?? 0;
-                    const last =
-                      visibleGrowth[visibleGrowth.length - 1]?.value ?? 0;
-                    const delta = last - first;
-                    const pct = first > 0 ? (delta / first) * 100 : 0;
-                    const up = delta >= 0;
-                    return (
-                      <>
-                        <span
-                          className={`text-2xl sm:text-3xl font-bold tabular-nums ${
+                  {/* Hero KPI row */}
+                  <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white px-4 py-3 min-w-0">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        Current value
+                      </p>
+                      <p className="text-xl sm:text-2xl font-bold text-slate-900 tabular-nums mt-0.5 truncate">
+                        $
+                        {last.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </p>
+                    </div>
+                    <div
+                      className={`rounded-2xl border px-4 py-3 min-w-0 ${
+                        up
+                          ? "border-emerald-100 bg-gradient-to-br from-emerald-50 to-white"
+                          : "border-rose-100 bg-gradient-to-br from-rose-50 to-white"
+                      }`}
+                    >
+                      <p
+                        className={`text-[10px] font-bold uppercase tracking-wider ${
+                          up ? "text-emerald-700" : "text-rose-700"
+                        }`}
+                      >
+                        Period change
+                      </p>
+                      <div className="flex items-baseline gap-1.5 mt-0.5">
+                        <p
+                          className={`text-xl sm:text-2xl font-bold tabular-nums ${
                             up ? "text-emerald-600" : "text-rose-600"
                           }`}
                         >
                           {up ? "+" : ""}
                           {pct.toFixed(2)}%
-                        </span>
+                        </p>
                         <span
-                          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
-                            up
-                              ? "bg-emerald-50 text-emerald-700"
-                              : "bg-rose-50 text-rose-700"
+                          className={`inline-flex items-center gap-0.5 text-xs font-semibold tabular-nums ${
+                            up ? "text-emerald-700" : "text-rose-700"
                           }`}
                         >
                           {up ? (
-                            <TrendingUp className="w-3.5 h-3.5" />
+                            <TrendingUp className="w-3 h-3" />
                           ) : (
-                            <TrendingDown className="w-3.5 h-3.5" />
+                            <TrendingDown className="w-3 h-3" />
                           )}
-                          {up ? "+" : ""}$
-                          {Math.abs(delta).toLocaleString(undefined, {
-                            maximumFractionDigits: 2,
+                          ${Math.abs(delta).toLocaleString(undefined, {
+                            maximumFractionDigits: 0,
                           })}
                         </span>
-                      </>
-                    );
-                  })()}
-                </div>
-              </div>
-            </div>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-white px-4 py-3 min-w-0">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-700">
+                        Period high
+                      </p>
+                      <p className="text-xl sm:text-2xl font-bold text-indigo-700 tabular-nums mt-0.5 truncate">
+                        $
+                        {high.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </p>
+                    </div>
+                  </div>
 
-            <div className="relative h-[280px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={visibleGrowth}
-                  margin={{ top: 10, right: 12, left: 0, bottom: 0 }}
-                >
-                  <defs>
-                    <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6366f1" stopOpacity={0.38} />
-                      <stop offset="60%" stopColor="#8b5cf6" stopOpacity={0.18} />
-                      <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.02} />
-                    </linearGradient>
-                    <linearGradient id="growthStroke" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#6366f1" />
-                      <stop offset="100%" stopColor="#a855f7" />
-                    </linearGradient>
-                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                      <feGaussianBlur stdDeviation="3" result="blur" />
-                      <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
+                  {/* Timeframe selector */}
+                  <div className="relative flex items-center justify-between gap-3 mb-3">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 hidden sm:block">
+                      Range
+                    </p>
+                    <div className="flex items-center gap-1 rounded-xl bg-slate-100 p-1 ml-auto">
+                      {(["1W", "1M", "3M", "ALL"] as const).map((tf) => (
+                        <button
+                          key={tf}
+                          onClick={() => setTimeframe(tf)}
+                          className={`relative px-3 py-1.5 text-xs font-bold rounded-lg transition ${
+                            timeframe === tf
+                              ? "text-white"
+                              : "text-slate-500 hover:text-slate-700"
+                          }`}
+                        >
+                          {timeframe === tf && (
+                            <motion.span
+                              layoutId="tf-pill"
+                              className="absolute inset-0 rounded-lg bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 shadow-md shadow-indigo-500/25"
+                              transition={{
+                                type: "spring",
+                                stiffness: 320,
+                                damping: 28,
+                              }}
+                            />
+                          )}
+                          <span className="relative">{tf}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                  <CartesianGrid
-                    stroke="#eef0f5"
-                    strokeOpacity={0.9}
-                    vertical={false}
-                  />
-
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
-                    axisLine={false}
-                    tickLine={false}
-                    padding={{ left: 8, right: 8 }}
-                    minTickGap={28}
-                  />
-
-                  <YAxis
-                    orientation="right"
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
-                    axisLine={false}
-                    tickLine={false}
-                    domain={["dataMin - 40", "dataMax + 40"]}
-                    tickFormatter={(value) => `$${Number(value).toFixed(0)}`}
-                    width={56}
-                  />
-
-                  <Tooltip
-                    formatter={(value: number) => [
-                      `$${value.toLocaleString()}`,
-                      "Value",
-                    ]}
-                    labelStyle={{ color: "#0f172a", fontWeight: 600 }}
-                    contentStyle={{
-                      borderRadius: "14px",
-                      border: "1px solid #e2e8f0",
-                      boxShadow: "0 12px 32px rgba(15, 23, 42, 0.10)",
-                    }}
-                    cursor={{
-                      stroke: "#a78bfa",
-                      strokeWidth: 1,
-                      strokeDasharray: "4 4",
-                    }}
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="value"
-                    stroke="url(#growthStroke)"
-                    strokeWidth={2.75}
-                    fill="url(#growthFill)"
-                    dot={(props: any) => {
-                      const { cx, cy, index } = props;
-                      const isLast = index === visibleGrowth.length - 1;
-                      if (!isLast) return <g key={`d-${index}`} />;
-                      return (
-                        <g key={`d-last-${index}`}>
-                          <circle
-                            cx={cx}
-                            cy={cy}
-                            r={9}
-                            fill="#a855f7"
-                            opacity={0.25}
+                  {/* Chart */}
+                  <div className="relative h-[280px] sm:h-[300px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart
+                        data={visibleGrowth}
+                        margin={{ top: 16, right: 8, left: 0, bottom: 0 }}
+                      >
+                        <defs>
+                          <linearGradient
+                            id="growthFill"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
                           >
-                            <animate
-                              attributeName="r"
-                              values="6;14;6"
-                              dur="1.8s"
-                              repeatCount="indefinite"
+                            <stop
+                              offset="0%"
+                              stopColor="#6366f1"
+                              stopOpacity={0.42}
                             />
-                            <animate
-                              attributeName="opacity"
-                              values="0.35;0;0.35"
-                              dur="1.8s"
-                              repeatCount="indefinite"
+                            <stop
+                              offset="55%"
+                              stopColor="#3b82f6"
+                              stopOpacity={0.18}
                             />
-                          </circle>
-                          <circle
-                            cx={cx}
-                            cy={cy}
-                            r={4.5}
-                            fill="#7c3aed"
-                            stroke="#fff"
-                            strokeWidth={2}
-                            filter="url(#glow)"
-                          />
-                        </g>
-                      );
-                    }}
-                    activeDot={{
-                      r: 5,
-                      fill: "#7c3aed",
-                      stroke: "#fff",
-                      strokeWidth: 2,
-                    }}
-                    isAnimationActive
-                    animationDuration={1200}
-                    animationEasing="ease-out"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+                            <stop
+                              offset="100%"
+                              stopColor="#3b82f6"
+                              stopOpacity={0.0}
+                            />
+                          </linearGradient>
+                          <linearGradient
+                            id="growthStroke"
+                            x1="0"
+                            y1="0"
+                            x2="1"
+                            y2="0"
+                          >
+                            <stop offset="0%" stopColor="#4f46e5" />
+                            <stop offset="50%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#6366f1" />
+                          </linearGradient>
+                          <filter
+                            id="lineGlow"
+                            x="-20%"
+                            y="-20%"
+                            width="140%"
+                            height="140%"
+                          >
+                            <feGaussianBlur stdDeviation="2.4" result="blur" />
+                            <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                          <filter
+                            id="dotGlow"
+                            x="-50%"
+                            y="-50%"
+                            width="200%"
+                            height="200%"
+                          >
+                            <feGaussianBlur stdDeviation="3" result="blur" />
+                            <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                        </defs>
 
-            <div className="relative mt-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
-                <TrendingUp className="w-5 h-5 text-emerald-400" />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-wider text-slate-400">
-                  Status
-                </p>
-                <p className="text-base font-bold mt-0.5">
-                  Your investment is actively growing
-                </p>
-              </div>
-            </div>
+                        <CartesianGrid
+                          stroke="#eef0f5"
+                          strokeDasharray="3 3"
+                          strokeOpacity={0.7}
+                          vertical={false}
+                        />
+
+                        <XAxis
+                          dataKey="date"
+                          tick={{
+                            fill: "#94a3b8",
+                            fontSize: 11,
+                            fontWeight: 500,
+                          }}
+                          axisLine={false}
+                          tickLine={false}
+                          padding={{ left: 8, right: 8 }}
+                          minTickGap={32}
+                        />
+
+                        <YAxis
+                          orientation="right"
+                          tick={{
+                            fill: "#94a3b8",
+                            fontSize: 11,
+                            fontWeight: 500,
+                          }}
+                          axisLine={false}
+                          tickLine={false}
+                          domain={["dataMin - 40", "dataMax + 40"]}
+                          tickFormatter={(value) => {
+                            const v = Number(value);
+                            if (Math.abs(v) >= 1_000_000)
+                              return `$${(v / 1_000_000).toFixed(1)}M`;
+                            if (Math.abs(v) >= 1_000)
+                              return `$${(v / 1_000).toFixed(1)}k`;
+                            return `$${v.toFixed(0)}`;
+                          }}
+                          width={56}
+                        />
+
+                        {high > 0 && low !== high && (
+                          <ReferenceLine
+                            y={high}
+                            stroke="#a5b4fc"
+                            strokeDasharray="4 4"
+                            strokeWidth={1}
+                            label={{
+                              value: "High",
+                              position: "insideTopRight",
+                              fill: "#6366f1",
+                              fontSize: 10,
+                              fontWeight: 700,
+                            }}
+                          />
+                        )}
+
+                        <Tooltip
+                          formatter={(value: number) => [
+                            `$${value.toLocaleString(undefined, {
+                              maximumFractionDigits: 2,
+                            })}`,
+                            "Balance",
+                          ]}
+                          labelStyle={{ color: "#0f172a", fontWeight: 700 }}
+                          contentStyle={{
+                            borderRadius: "14px",
+                            border: "1px solid #e2e8f0",
+                            boxShadow: "0 14px 36px rgba(15, 23, 42, 0.12)",
+                            padding: "10px 14px",
+                          }}
+                          cursor={{
+                            stroke: "#6366f1",
+                            strokeWidth: 1.25,
+                            strokeDasharray: "4 4",
+                          }}
+                        />
+
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke="url(#growthStroke)"
+                          strokeWidth={3}
+                          fill="url(#growthFill)"
+                          filter="url(#lineGlow)"
+                          dot={(props: any) => {
+                            const { cx, cy, index } = props;
+                            const isLast =
+                              index === visibleGrowth.length - 1;
+                            if (!isLast) return <g key={`d-${index}`} />;
+                            return (
+                              <g key={`d-last-${index}`}>
+                                <circle
+                                  cx={cx}
+                                  cy={cy}
+                                  r={9}
+                                  fill="#3b82f6"
+                                  opacity={0.3}
+                                >
+                                  <animate
+                                    attributeName="r"
+                                    values="6;16;6"
+                                    dur="2s"
+                                    repeatCount="indefinite"
+                                  />
+                                  <animate
+                                    attributeName="opacity"
+                                    values="0.45;0;0.45"
+                                    dur="2s"
+                                    repeatCount="indefinite"
+                                  />
+                                </circle>
+                                <circle
+                                  cx={cx}
+                                  cy={cy}
+                                  r={5}
+                                  fill="#4f46e5"
+                                  stroke="#fff"
+                                  strokeWidth={2.5}
+                                  filter="url(#dotGlow)"
+                                />
+                              </g>
+                            );
+                          }}
+                          activeDot={{
+                            r: 6,
+                            fill: "#4f46e5",
+                            stroke: "#fff",
+                            strokeWidth: 2.5,
+                          }}
+                          isAnimationActive
+                          animationDuration={1300}
+                          animationEasing="ease-out"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  {/* Legend */}
+                  <div className="relative flex flex-wrap items-center gap-x-5 gap-y-2 mt-4 text-xs text-slate-500">
+                    <div className="inline-flex items-center gap-1.5">
+                      <span className="relative inline-flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-60" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-indigo-600" />
+                      </span>
+                      Latest balance
+                    </div>
+                    <div className="inline-flex items-center gap-1.5">
+                      <span className="block h-px w-4 bg-indigo-300 [border-top:1px_dashed]" />
+                      Period high
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 ml-auto">
+                      <span className="font-semibold text-slate-600">
+                        {visibleGrowth.length}
+                      </span>
+                      data points
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+
+            {(() => {
+              const last =
+                visibleGrowth[visibleGrowth.length - 1]?.value ?? 0;
+              const first = visibleGrowth[0]?.value ?? 0;
+              const delta = last - first;
+
+              const idle = balance <= 0;
+              const up = !idle && delta >= 0;
+              const flat = !idle && delta === 0;
+              const down = !idle && delta < 0;
+
+              const tone = idle
+                ? {
+                    iconBg: "bg-slate-500/15",
+                    iconColor: "text-slate-300",
+                    title: "Account idle",
+                    sub: "Make a deposit to start tracking growth.",
+                    Icon: Wallet,
+                  }
+                : flat
+                ? {
+                    iconBg: "bg-indigo-500/20",
+                    iconColor: "text-indigo-300",
+                    title: "Steady — no movement this period",
+                    sub: "Your balance is holding firm.",
+                    Icon: Activity,
+                  }
+                : down
+                ? {
+                    iconBg: "bg-rose-500/20",
+                    iconColor: "text-rose-300",
+                    title: "Slight pullback this period",
+                    sub: "Long-term strategies recover from short dips.",
+                    Icon: TrendingDown,
+                  }
+                : {
+                    iconBg: "bg-emerald-500/20",
+                    iconColor: "text-emerald-400",
+                    title: "Your investment is actively growing",
+                    sub: up
+                      ? "Compounding steadily across the period."
+                      : "Steady performance.",
+                    Icon: TrendingUp,
+                  };
+              const Icon = tone.Icon;
+
+              return (
+                <div className="relative mt-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 flex items-center gap-4">
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${tone.iconBg}`}
+                  >
+                    <Icon className={`w-5 h-5 ${tone.iconColor}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-wider text-slate-400">
+                      Status
+                    </p>
+                    <p className="text-sm sm:text-base font-bold mt-0.5 truncate">
+                      {tone.title}
+                    </p>
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">
+                      {tone.sub}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
           </motion.div>
         </div>
 
