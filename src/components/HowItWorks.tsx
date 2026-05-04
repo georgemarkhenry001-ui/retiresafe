@@ -22,10 +22,10 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-16 sm:py-20 lg:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
           <p className="text-lg text-slate-600">
             We've simplified the complex world of digital assets into a clear, 
             dependable process tailored specifically for retirees.

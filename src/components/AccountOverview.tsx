@@ -465,7 +465,7 @@ export default function AccountOverview() {
           <div className="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-violet-200/40 blur-3xl pointer-events-none" />
 
-          <div className="relative p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center gap-6">
+          <div className="relative p-5 sm:p-6 lg:p-8 flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex items-center gap-4 flex-1">
               <div className="relative shrink-0">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-indigo-500/30">
@@ -606,7 +606,7 @@ export default function AccountOverview() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.15 }}
-            className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-700 rounded-3xl shadow-lg p-6 sm:p-8 text-white"
+            className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-700 rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8 text-white"
           >
             <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/10 blur-2xl" />
             <div className="absolute -bottom-20 -left-10 w-56 h-56 rounded-full bg-violet-400/20 blur-2xl" />
@@ -678,7 +678,7 @@ export default function AccountOverview() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.25 }}
-            className="relative overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8"
+            className="relative overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-200 p-5 sm:p-6 lg:p-8"
           >
             {/* Soft animated background */}
             <motion.div
@@ -1388,7 +1388,7 @@ export default function AccountOverview() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.4 }}
-            className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8"
+            className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 p-5 sm:p-6 lg:p-8"
           >
             <div className="flex items-center justify-between gap-3 mb-5">
               <div className="flex items-center gap-3">
@@ -1489,7 +1489,7 @@ export default function AccountOverview() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.45 }}
-          className="mt-6 bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-8"
+          className="mt-6 bg-white rounded-3xl shadow-sm border border-slate-200 p-5 sm:p-6 lg:p-8"
         >
           <div className="flex items-center justify-between mb-5">
             <div>

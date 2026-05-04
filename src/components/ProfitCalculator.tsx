@@ -153,7 +153,7 @@ export default function ProfitCalculator() {
   return (
     <section
       id="calculator"
-      className="relative py-24 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
+      className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50 to-white overflow-hidden"
     >
       {/* Animated background motion graphics */}
       <motion.div
@@ -172,7 +172,7 @@ export default function ProfitCalculator() {
         className="absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -184,7 +184,7 @@ export default function ProfitCalculator() {
             <CalcIcon className="w-3.5 h-3.5" />
             Retirement Calculator
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
             See your future,{" "}
             <span className="bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
               in numbers
@@ -202,7 +202,7 @@ export default function ProfitCalculator() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="relative bg-white rounded-[40px] p-6 md:p-10 border border-slate-200 shadow-xl shadow-indigo-500/5"
+          className="relative bg-white rounded-3xl sm:rounded-[40px] p-5 sm:p-6 md:p-10 border border-slate-200 shadow-xl shadow-indigo-500/5"
         >
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-10">
             {/* ===== Inputs ===== */}

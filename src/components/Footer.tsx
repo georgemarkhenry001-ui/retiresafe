@@ -58,14 +58,14 @@ export default function Footer() {
         className="absolute top-0 h-px w-1/3 bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent pointer-events-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-16 lg:py-20">
         {/* CTA banner */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 p-8 sm:p-10 mb-16 shadow-2xl shadow-indigo-500/20"
+          className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 p-6 sm:p-8 lg:p-10 mb-12 sm:mb-16 shadow-2xl shadow-indigo-500/20"
         >
           <motion.div
             animate={{ x: ["-10%", "110%"] }}

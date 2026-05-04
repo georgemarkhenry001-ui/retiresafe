@@ -27,11 +27,11 @@ const principles = [
 
 export default function InvestmentApproach() {
   return (
-    <section id="approach" className="py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section id="approach" className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-5 sm:mb-6">
               A Conservative Approach to a Modern Asset Class
             </h2>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">

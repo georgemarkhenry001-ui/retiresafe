@@ -174,7 +174,7 @@ const partners: Partner[] = [
 
 export default function TrustedBy() {
   return (
-    <section className="relative py-20 sm:py-24 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
+    <section className="relative py-14 sm:py-20 lg:py-24 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
       {/* Animated background motion graphics */}
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -192,7 +192,7 @@ export default function TrustedBy() {
         className="absolute -bottom-32 -right-32 w-[380px] h-[380px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -246,7 +246,7 @@ export default function TrustedBy() {
                   className="absolute -top-16 -right-12 w-40 h-40 rounded-full bg-indigo-100/60 blur-3xl pointer-events-none"
                 />
 
-                <div className="relative h-full p-6 sm:p-7 flex flex-col items-center justify-center text-center min-h-[140px] sm:min-h-[160px]">
+                <div className="relative h-full p-4 sm:p-6 lg:p-7 flex flex-col items-center justify-center text-center min-h-[120px] sm:min-h-[150px]">
                   <div className="flex-1 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-105">
                     <Mark
                       className={`w-auto max-w-full ${

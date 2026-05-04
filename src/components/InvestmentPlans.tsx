@@ -84,7 +84,7 @@ export default function InvestmentPlans({
   return (
     <section
       id="plans"
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50"
+      className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50"
     >
       {/* Animated background motion graphics */}
       <motion.div
@@ -103,7 +103,7 @@ export default function InvestmentPlans({
         className="absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export default function InvestmentPlans({
             <Sparkles className="w-3.5 h-3.5" />
             Investment Plans
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
             Pick a path,{" "}
             <span className="bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
               we handle the rest

@@ -56,8 +56,8 @@ export default function ReviewsStars() {
   };
 
   return (
-    <section className="py-16 bg-white border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -76,10 +76,10 @@ export default function ReviewsStars() {
             viewport={{ once: true }}
             className="flex items-baseline gap-2"
           >
-            <h3 className="text-5xl lg:text-6xl font-bold text-slate-900">
+            <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900">
               {rating}
             </h3>
-            <span className="text-2xl text-slate-500 font-semibold">
+            <span className="text-xl sm:text-2xl text-slate-500 font-semibold">
               /{maxRating}
             </span>
           </motion.div>

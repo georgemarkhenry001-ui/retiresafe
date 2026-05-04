@@ -30,14 +30,14 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 bg-white">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-16">
+    <section id="faq" className="py-16 sm:py-20 lg:py-24 bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14 lg:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-4">
             <HelpCircle className="w-3.5 h-3.5" />
             Common Questions
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
         </div>
 
         <div className="space-y-4">
@@ -45,7 +45,7 @@ export default function FAQ() {
             <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden">
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors"
+                className="w-full flex items-center justify-between gap-3 p-5 sm:p-6 text-left hover:bg-slate-50 transition-colors"
               >
                 <span className="font-bold text-slate-900">{faq.question}</span>
                 <ChevronDown className={cn("w-5 h-5 text-slate-400 transition-transform", openIndex === i && "rotate-180")} />

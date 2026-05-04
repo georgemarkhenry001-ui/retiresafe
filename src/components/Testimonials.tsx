@@ -68,7 +68,7 @@ export default function Testimonials() {
   const featured = testimonials[active];
 
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
+    <section className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
       {/* Animated background motion graphics */}
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.6, 0.4] }}
@@ -86,7 +86,7 @@ export default function Testimonials() {
         className="absolute -bottom-40 -right-40 w-[460px] h-[460px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export default function Testimonials() {
             <Sparkles className="w-3.5 h-3.5" />
             Client Stories
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
             Real retirees,{" "}
             <span className="bg-gradient-to-br from-indigo-600 via-blue-600 to-indigo-700 bg-clip-text text-transparent">
               real outcomes
@@ -166,7 +166,7 @@ export default function Testimonials() {
               className="absolute -top-32 -right-24 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
             />
 
-            <div className="relative grid lg:grid-cols-12 gap-8 p-8 sm:p-10">
+            <div className="relative grid lg:grid-cols-12 gap-6 sm:gap-8 p-6 sm:p-8 lg:p-10">
               <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
                 <AnimatePresence mode="wait">
                   <motion.div

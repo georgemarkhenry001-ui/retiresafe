@@ -140,7 +140,7 @@ export default function Hero({
   const yearsAvg = useCounter(13);
 
   return (
-    <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden">
+    <section className="relative pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-44 lg:pb-32 overflow-hidden">
       {/* Animated background mesh */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <motion.div
@@ -180,8 +180,8 @@ export default function Hero({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
