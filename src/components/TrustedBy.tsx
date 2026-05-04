@@ -4,89 +4,35 @@ import { ShieldCheck } from "lucide-react";
 type Partner = {
   name: string;
   category: string;
-  /** Brand-styled wordmark — keeps the section reliable without external images */
-  Wordmark: () => any;
+  logo: string;
+  /** Tweak per-logo height so visually heavy logos sit smaller */
+  heightClass?: string;
 };
 
 const partners: Partner[] = [
   {
     name: "Tesla",
     category: "Innovation Partner",
-    Wordmark: () => (
-      <span
-        className="text-3xl font-extrabold tracking-[0.18em]"
-        style={{
-          color: "#e31937",
-          fontFamily: "Inter, sans-serif",
-          letterSpacing: "0.32em",
-        }}
-      >
-        TESLA
-      </span>
-    ),
+    logo: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Tesla_Motors.svg",
+    heightClass: "h-7 sm:h-8",
   },
   {
     name: "Charles Schwab",
     category: "Custody & Brokerage",
-    Wordmark: () => (
-      <div className="flex items-center gap-1.5">
-        <span
-          className="inline-flex items-center justify-center w-7 h-7 rounded-md text-white font-bold text-base"
-          style={{ background: "#00a0df" }}
-        >
-          C
-        </span>
-        <span
-          className="text-lg sm:text-xl font-bold tracking-tight"
-          style={{ color: "#003a70" }}
-        >
-          charles<span className="font-black">SCHWAB</span>
-        </span>
-      </div>
-    ),
+    logo: "https://upload.wikimedia.org/wikipedia/commons/3/35/Charles_Schwab_Corporation_logo.svg",
+    heightClass: "h-9 sm:h-10",
   },
   {
-    name: "Fidelity",
+    name: "Fidelity Investments",
     category: "Asset Management",
-    Wordmark: () => (
-      <div className="flex items-baseline gap-1.5">
-        <span
-          className="text-2xl sm:text-3xl font-bold italic tracking-tight"
-          style={{
-            color: "#00945c",
-            fontFamily: "Georgia, serif",
-          }}
-        >
-          Fidelity
-        </span>
-        <span
-          className="hidden sm:inline text-[9px] font-bold uppercase tracking-widest"
-          style={{ color: "#00945c" }}
-        >
-          Investments
-        </span>
-      </div>
-    ),
+    logo: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Fidelity_Investments_logo.svg",
+    heightClass: "h-8 sm:h-10",
   },
   {
     name: "Vanguard",
     category: "Index Strategies",
-    Wordmark: () => (
-      <div className="flex items-center gap-2">
-        <svg viewBox="0 0 32 32" className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden>
-          <path
-            d="M3 4 L16 28 L29 4 L24 4 L16 19 L8 4 Z"
-            fill="#962525"
-          />
-        </svg>
-        <span
-          className="text-xl sm:text-2xl font-extrabold tracking-tight"
-          style={{ color: "#962525", fontFamily: "Georgia, serif" }}
-        >
-          Vanguard
-        </span>
-      </div>
-    ),
+    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/The_Vanguard_Group_Logo.svg",
+    heightClass: "h-9 sm:h-11",
   },
 ];
 
@@ -136,60 +82,51 @@ export default function TrustedBy() {
         </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {partners.map((partner, i) => {
-            const Wordmark = partner.Wordmark;
-            return (
-              <motion.div
-                key={partner.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                whileHover={{ y: -5 }}
-                className="group relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-200 transition-all"
-              >
-                {/* Top gradient accent on hover */}
-                <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                {/* Soft glow blob */}
-                <motion.span
-                  animate={{
-                    opacity: [0.2, 0.4, 0.2],
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    delay: i * 0.4,
-                  }}
-                  className="absolute -top-16 -right-12 w-40 h-40 rounded-full bg-indigo-100/60 blur-3xl pointer-events-none"
-                />
+          {partners.map((partner, i) => (
+            <motion.div
+              key={partner.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-200 transition-all"
+            >
+              {/* Top gradient accent on hover */}
+              <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Soft glow blob */}
+              <motion.span
+                animate={{
+                  opacity: [0.2, 0.4, 0.2],
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  delay: i * 0.4,
+                }}
+                className="absolute -top-16 -right-12 w-40 h-40 rounded-full bg-indigo-100/60 blur-3xl pointer-events-none"
+              />
 
-                <div className="relative h-full p-6 sm:p-7 flex flex-col items-center justify-center text-center min-h-[140px] sm:min-h-[160px]">
-                  <div className="flex-1 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                    <Wordmark />
-                  </div>
-                  <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-slate-400 group-hover:text-indigo-600 transition-colors">
-                    {partner.category}
-                  </p>
+              <div className="relative h-full p-6 sm:p-7 flex flex-col items-center justify-center text-center min-h-[140px] sm:min-h-[160px]">
+                <div className="flex-1 flex items-center justify-center mb-3 transition-all duration-300 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className={`w-auto max-w-[160px] sm:max-w-[180px] object-contain ${
+                      partner.heightClass ?? "h-8 sm:h-10"
+                    }`}
+                  />
                 </div>
-              </motion.div>
-            );
-          })}
+                <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-slate-400 group-hover:text-indigo-600 transition-colors">
+                  {partner.category}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-
-        {/* Trust footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-slate-500"
-        >
-          <p className="text-xs sm:text-sm">
-            Logos shown represent industry partnerships and integrations. All
-            company marks are property of their respective owners.
-          </p>
-        </motion.div>
       </div>
     </section>
   );
