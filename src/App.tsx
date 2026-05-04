@@ -82,62 +82,81 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
         isScrolled
-          ? "bg-white/90 backdrop-blur-md py-3 border-slate-200 shadow-sm"
+          ? "bg-white/80 backdrop-blur-xl py-3 border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)]"
           : "bg-transparent py-5 border-transparent",
       )}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-indigo-200 shadow-lg group-hover:scale-105 transition-transform">
-            <Shield className="text-white w-6 h-6" />
-          </div>
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <motion.div
+            whileHover={{ rotate: -6, scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 320, damping: 18 }}
+            className="relative w-10 h-10 bg-gradient-to-br from-indigo-500 via-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30"
+          >
+            <Shield className="text-white w-5 h-5 relative z-10" />
+            <motion.span
+              animate={{ opacity: [0.4, 0.9, 0.4], scale: [1, 1.1, 1] }}
+              transition={{ duration: 2.4, repeat: Infinity }}
+              className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-400/40 to-blue-400/40 blur-md"
+            />
+          </motion.div>
           <span className="text-xl font-bold tracking-tight text-slate-900">
-            RetireSafe<span className="text-indigo-600">Crypto</span>
+            RetireSafe
+            <span className="bg-gradient-to-br from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+              Crypto
+            </span>
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          <a
-            href="#approach"
-            className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
-          >
-            Approach
-          </a>
-          <a
-            href="#calculator"
-            className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
-          >
-            Calculator
-          </a>
-          <a
-            href="#faq"
-            className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
-          >
-            FAQ
-          </a>
+        <div className="hidden md:flex items-center gap-1">
+          {[
+            { href: "#approach", label: "Approach" },
+            { href: "#calculator", label: "Calculator" },
+            { href: "#faq", label: "FAQ" },
+          ].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="relative px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors group"
+            >
+              {link.label}
+              <span className="absolute left-3 right-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 origin-left scale-x-0 group-hover:scale-x-100 transition-transform" />
+            </a>
+          ))}
 
           {!user ? (
             <>
               <Link
                 to="/login"
-                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
+                className="ml-2 px-4 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
               >
                 Login
               </Link>
 
-              <button
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={onContactClick}
-                className="bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 active:scale-95"
+                className="relative ml-1 overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-indigo-500/30"
               >
-                Contact Us
-              </button>
+                <motion.span
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{
+                    duration: 2.6,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none"
+                />
+                <span className="relative">Contact Us</span>
+              </motion.button>
             </>
           ) : (
             <>
               {!isHomePage && (
                 <Link
                   to="/"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600"
+                  className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
                 >
                   <Home className="w-4 h-4" />
                   Home
@@ -146,15 +165,15 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
 
               <Link
                 to="/account"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600"
+                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
               >
                 <Landmark className="w-4 h-4" />
-                Account Overview
+                Account
               </Link>
 
               <Link
                 to="/deposit"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600"
+                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
               >
                 <ArrowDownToLine className="w-4 h-4" />
                 Deposit
@@ -162,19 +181,21 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
 
               <Link
                 to="/withdrawal"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600"
+                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
               >
                 <ArrowUpFromLine className="w-4 h-4" />
                 Withdrawal
               </Link>
 
-              <button
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={handleLogout}
-                className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-slate-800"
+                className="ml-1 inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-full text-sm font-semibold shadow-md shadow-slate-900/20 transition"
               >
                 <LogOut className="w-4 h-4" />
                 Logout
-              </button>
+              </motion.button>
             </>
           )}
         </div>
