@@ -26,6 +26,7 @@ import { useAuth } from "./hooks/useAuth";
 
 // Landing page components
 import Hero from "./components/Hero";
+import TrustedBy from "./components/TrustedBy";
 import ReviewsStars from "./components/ReviewsStars";
 import HowItWorks from "./components/HowItWorks";
 import InvestmentApproach from "./components/InvestmentApproach";
@@ -337,6 +338,7 @@ function LandingPage() {
       <Navbar onContactClick={() => setIsContactModalOpen(true)} />
       <main>
         <Hero onContactClick={() => setIsContactModalOpen(true)} />
+        <TrustedBy />
         <ReviewsStars />
         <HowItWorks />
         <InvestmentApproach />
