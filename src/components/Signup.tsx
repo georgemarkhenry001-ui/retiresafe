@@ -9,6 +9,7 @@ import {
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 import { auth, db } from "../lib/firebase";
 
 export default function Signup() {
@@ -136,18 +137,9 @@ export default function Signup() {
           type="button"
           onClick={handleGoogleSignup}
           disabled={loading}
-          className="w-full mt-4 inline-flex items-center justify-center gap-3 border border-slate-300 bg-white text-slate-700 py-3 rounded-xl font-semibold hover:bg-slate-50 transition disabled:opacity-60"
+          className="w-full mt-4 inline-flex items-center justify-center gap-3 border border-slate-300 bg-white text-slate-700 py-3 rounded-xl font-semibold shadow-sm hover:bg-slate-50 hover:shadow active:scale-[0.99] transition disabled:opacity-60"
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#EA4335"
-              d="M12 11.375v2.5h3.97c-.17 1.05-.96 2.857-3.97 2.857-2.39 0-4.333-1.97-4.333-4.403s1.943-4.403 4.333-4.403c1.359 0 2.272.58 2.793 1.082l1.906-1.84C16.04 5.06 14.34 4 12 4 7.82 4 4.5 7.32 4.5 11.5S7.82 19 12 19c5.22 0 6.35-3.81 6.35-5.79 0-.39-.04-.7-.08-.99H12Z"
-            />
-          </svg>
+          <FcGoogle size={20} />
           {loading ? "Processing..." : "Continue with Google"}
         </button>
 
