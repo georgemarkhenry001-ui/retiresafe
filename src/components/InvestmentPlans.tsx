@@ -90,7 +90,7 @@ export default function InvestmentPlans({
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.6, 0.4] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
       />
       <motion.div
         animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -100,7 +100,7 @@ export default function InvestmentPlans({
           ease: "easeInOut",
           delay: 1.5,
         }}
-        className="absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">

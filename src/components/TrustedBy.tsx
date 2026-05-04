@@ -179,7 +179,7 @@ export default function TrustedBy() {
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-32 -left-32 w-[420px] h-[420px] rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -top-32 -left-32 w-[420px] h-[420px] rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
       />
       <motion.div
         animate={{ scale: [1, 1.1, 1], opacity: [0.25, 0.45, 0.25] }}
@@ -189,7 +189,7 @@ export default function TrustedBy() {
           ease: "easeInOut",
           delay: 1.5,
         }}
-        className="absolute -bottom-32 -right-32 w-[380px] h-[380px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -bottom-32 -right-32 w-[380px] h-[380px] rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">

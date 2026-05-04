@@ -517,8 +517,8 @@ export default function AccountOverview() {
           className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm mb-6"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-violet-50 pointer-events-none" />
-          <div className="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-violet-200/40 blur-3xl pointer-events-none" />
+          <div className="hidden md:block absolute -top-24 -right-20 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none" />
+          <div className="hidden md:block absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-violet-200/40 blur-3xl pointer-events-none" />
 
           <div className="relative p-5 sm:p-6 lg:p-8 flex flex-col lg:flex-row lg:items-center gap-6">
             <div className="flex items-center gap-4 flex-1">
@@ -739,7 +739,7 @@ export default function AccountOverview() {
             <motion.div
               animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.32, 0.18] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-32 -right-24 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
+              className="hidden md:block absolute -top-32 -right-24 w-72 h-72 rounded-full bg-indigo-200/40 blur-3xl pointer-events-none"
             />
             <motion.div
               animate={{ scale: [1, 1.1, 1], opacity: [0.12, 0.24, 0.12] }}
@@ -749,7 +749,7 @@ export default function AccountOverview() {
                 ease: "easeInOut",
                 delay: 1.5,
               }}
-              className="absolute -bottom-32 -left-24 w-72 h-72 rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
+              className="hidden md:block absolute -bottom-32 -left-24 w-72 h-72 rounded-full bg-blue-200/40 blur-3xl pointer-events-none"
             />
 
             {(() => {
@@ -1214,7 +1214,7 @@ export default function AccountOverview() {
             <motion.div
               animate={{ scale: [1, 1.15, 1], opacity: [0.18, 0.3, 0.18] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-indigo-500/30 blur-3xl pointer-events-none"
+              className="hidden md:block absolute -top-24 -right-16 w-72 h-72 rounded-full bg-indigo-500/30 blur-3xl pointer-events-none"
             />
             <motion.div
               animate={{ scale: [1, 1.2, 1], opacity: [0.12, 0.22, 0.12] }}
@@ -1224,10 +1224,10 @@ export default function AccountOverview() {
                 ease: "easeInOut",
                 delay: 1.5,
               }}
-              className="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-blue-400/20 blur-3xl pointer-events-none"
+              className="hidden md:block absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-blue-400/20 blur-3xl pointer-events-none"
             />
             <div
-              className="absolute inset-0 opacity-[0.05] pointer-events-none"
+              className="hidden md:block absolute inset-0 opacity-[0.05] pointer-events-none"
               style={{
                 backgroundImage:
                   "linear-gradient(rgba(99,102,241,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.6) 1px, transparent 1px)",

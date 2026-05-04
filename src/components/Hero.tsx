@@ -146,7 +146,7 @@ export default function Hero({
         <motion.div
           animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.7, 0.5] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-15%] right-[-10%] w-[560px] h-[560px] bg-indigo-200/50 rounded-full blur-3xl"
+          className="hidden md:block absolute top-[-15%] right-[-10%] w-[560px] h-[560px] bg-indigo-200/50 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.65, 0.5] }}
@@ -156,7 +156,7 @@ export default function Hero({
             ease: "easeInOut",
             delay: 1.5,
           }}
-          className="absolute bottom-[5%] left-[-8%] w-[460px] h-[460px] bg-blue-200/50 rounded-full blur-3xl"
+          className="hidden md:block absolute bottom-[5%] left-[-8%] w-[460px] h-[460px] bg-blue-200/50 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ scale: [1, 1.18, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -166,10 +166,10 @@ export default function Hero({
             ease: "easeInOut",
             delay: 0.8,
           }}
-          className="absolute top-[40%] left-[40%] w-[300px] h-[300px] bg-cyan-100/40 rounded-full blur-3xl"
+          className="hidden md:block absolute top-[40%] left-[40%] w-[300px] h-[300px] bg-cyan-100/40 rounded-full blur-3xl"
         />
         <div
-          className="absolute inset-0 opacity-[0.15]"
+          className="hidden md:block absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage:
               "linear-gradient(rgba(99,102,241,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.18) 1px, transparent 1px)",

@@ -31,7 +31,7 @@ export default function Footer() {
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.18, 0.3, 0.18] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-indigo-500/30 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -top-40 -right-40 w-[520px] h-[520px] rounded-full bg-indigo-500/30 blur-3xl pointer-events-none"
       />
       <motion.div
         animate={{ scale: [1, 1.12, 1], opacity: [0.12, 0.22, 0.12] }}
@@ -41,10 +41,10 @@ export default function Footer() {
           ease: "easeInOut",
           delay: 1.5,
         }}
-        className="absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-500/25 blur-3xl pointer-events-none"
+        className="hidden md:block absolute -bottom-40 -left-40 w-[460px] h-[460px] rounded-full bg-blue-500/25 blur-3xl pointer-events-none"
       />
       <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        className="hidden md:block absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
           backgroundImage:
             "linear-gradient(rgba(99,102,241,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.6) 1px, transparent 1px)",

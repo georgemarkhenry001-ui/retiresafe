@@ -103,7 +103,7 @@ function FloatingOrbs() {
 function AnimatedGrid() {
   return (
     <div
-      className="absolute inset-0 opacity-[0.08] pointer-events-none"
+      className="hidden md:block absolute inset-0 opacity-[0.08] pointer-events-none"
       style={{
         backgroundImage:
           "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)",

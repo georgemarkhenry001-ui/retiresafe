@@ -9,14 +9,31 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
-  
+
   body {
     @apply font-sans text-slate-900 antialiased;
+    overscroll-behavior-y: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4 {
     @apply font-display;
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Smoother momentum scrolling on iOS for any inner scroll containers */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -27,4 +44,30 @@ input[type='range']::-webkit-slider-thumb {
 
 input[type='range']::-moz-range-thumb {
   @apply w-6 h-6 bg-indigo-600 rounded-full border-4 border-white shadow-lg cursor-pointer transition-transform active:scale-125;
+}
+
+/*
+ * Mobile smoothness — pause expensive infinite animations on small screens
+ * so the GPU can idle during scroll. Section gradients still show, just
+ * without the continuous breathing/scan-line effects.
+ */
+@media (max-width: 767px) {
+  .motion-decoration {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/*
+ * Honor user's OS-level "reduce motion" preference everywhere.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
