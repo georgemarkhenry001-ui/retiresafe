@@ -108,27 +108,83 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
           </span>
         </Link>
 
-        <div className="hidden lg:flex items-center gap-1">
-          {[
-            { href: "#approach", label: "Approach" },
-            { href: "#calculator", label: "Calculator" },
-            { href: "#faq", label: "FAQ" },
-          ].map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="relative px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 transition-colors group"
-            >
-              {link.label}
-              <span className="absolute left-3 right-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 origin-left scale-x-0 group-hover:scale-x-100 transition-transform" />
-            </a>
-          ))}
+        <div className="hidden lg:flex items-center gap-3">
+          {/* Section anchors — grouped in a segmented pill */}
+          {isHomePage && (
+            <nav className="flex items-center gap-0.5 rounded-full bg-slate-100/80 backdrop-blur p-1 border border-slate-200/60">
+              {[
+                { href: "#approach", label: "Approach" },
+                { href: "#calculator", label: "Calculator" },
+                { href: "#faq", label: "FAQ" },
+              ].map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-3.5 py-1.5 text-sm font-semibold text-slate-600 hover:text-white rounded-full transition-colors group"
+                >
+                  <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity shadow-md shadow-indigo-500/25" />
+                  <span className="relative">{link.label}</span>
+                </a>
+              ))}
+            </nav>
+          )}
 
+          {/* Account nav (logged in) — segmented pill with active highlight */}
+          {user && (
+            <nav className="flex items-center gap-0.5 rounded-full bg-slate-100/80 backdrop-blur p-1 border border-slate-200/60">
+              {!isHomePage && (
+                <Link
+                  to="/"
+                  className="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-600 rounded-full transition-colors"
+                >
+                  <Home className="w-4 h-4" />
+                  Home
+                </Link>
+              )}
+
+              {[
+                { to: "/account", label: "Account", icon: Landmark },
+                { to: "/deposit", label: "Deposit", icon: ArrowDownToLine },
+                { to: "/withdrawal", label: "Withdrawal", icon: ArrowUpFromLine },
+              ].map((item) => {
+                const isActive = location.pathname === item.to;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={cn(
+                      "relative inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold rounded-full transition-colors",
+                      isActive
+                        ? "text-white"
+                        : "text-slate-600 hover:text-indigo-600",
+                    )}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="navbar-pill"
+                        transition={{
+                          type: "spring",
+                          stiffness: 320,
+                          damping: 28,
+                        }}
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 shadow-md shadow-indigo-500/30"
+                      />
+                    )}
+                    <Icon className="relative w-4 h-4" />
+                    <span className="relative">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          )}
+
+          {/* Right-side action(s) */}
           {!user ? (
-            <>
+            <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="ml-2 px-4 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
+                className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
               >
                 Login
               </Link>
@@ -137,7 +193,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={onContactClick}
-                className="relative ml-1 overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-indigo-500/30"
+                className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-indigo-500/30"
               >
                 <motion.span
                   animate={{ x: ["-100%", "200%"] }}
@@ -150,53 +206,17 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
                 />
                 <span className="relative">Contact Us</span>
               </motion.button>
-            </>
+            </div>
           ) : (
-            <>
-              {!isHomePage && (
-                <Link
-                  to="/"
-                  className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
-                >
-                  <Home className="w-4 h-4" />
-                  Home
-                </Link>
-              )}
-
-              <Link
-                to="/account"
-                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
-              >
-                <Landmark className="w-4 h-4" />
-                Account
-              </Link>
-
-              <Link
-                to="/deposit"
-                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
-              >
-                <ArrowDownToLine className="w-4 h-4" />
-                Deposit
-              </Link>
-
-              <Link
-                to="/withdrawal"
-                className="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all"
-              >
-                <ArrowUpFromLine className="w-4 h-4" />
-                Withdrawal
-              </Link>
-
-              <motion.button
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={handleLogout}
-                className="ml-1 inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2.5 rounded-full text-sm font-semibold shadow-md shadow-slate-900/20 transition"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </motion.button>
-            </>
+            <motion.button
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleLogout}
+              className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-md shadow-slate-900/20 transition"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </motion.button>
           )}
         </div>
 
